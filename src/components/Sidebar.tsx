@@ -47,7 +47,7 @@ const Sidebar = ({ onProjectHover }: SidebarProps) => {
   }
 
   return (
-    <div className="col-span-4 bg-bg overflow-y-auto">
+    <div className="col-span-4 backdrop-blur-sm overflow-y-auto">
       <div className="p-6">
         {/* Filters */}
         <div className="mb-8">
@@ -59,10 +59,10 @@ const Sidebar = ({ onProjectHover }: SidebarProps) => {
                 onClick={() => setActiveFilter(filter)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-3 py-1.5 text-xs rounded-full transition-colors ${
+                className={`px-3 py-1.5 text-xs rounded-full transition-colors backdrop-blur-sm ${
                   activeFilter === filter
-                    ? 'bg-sky-500 text-white'
-                    : 'bg-sky-50 text-sub hover:bg-sky-100'
+                    ? 'bg-sky-500/90 text-white'
+                    : 'bg-white/20 text-sub hover:bg-white/30'
                 }`}
               >
                 {filter}
@@ -84,8 +84,8 @@ const Sidebar = ({ onProjectHover }: SidebarProps) => {
               onMouseLeave={() => handleMouseLeave(project)}
               className={`p-4 rounded-lg cursor-pointer transition-all duration-150 ease-in-out ${
                 hoveredItem === project.id
-                  ? 'bg-sky-50'
-                  : 'bg-transparent hover:bg-sky-25'
+                  ? 'bg-white/20 backdrop-blur-sm'
+                  : 'bg-transparent hover:bg-white/10'
               }`}
             >
               <h4 className="font-medium text-ink mb-2">{project.title}</h4>
@@ -93,7 +93,7 @@ const Sidebar = ({ onProjectHover }: SidebarProps) => {
                 {project.tags.map(tag => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 text-xs bg-sky-100 text-sky-600 rounded"
+                    className="px-2 py-0.5 text-xs bg-white/30 text-sky-600 rounded backdrop-blur-sm"
                   >
                     {tag}
                   </span>

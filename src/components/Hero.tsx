@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const Hero = () => {
   return (
-    <div className="h-full flex items-center justify-center p-8">
+    <div className="h-full flex items-center justify-center p-8 pt-20">
       <div className="text-center max-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -10,8 +10,8 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <div className="w-40 h-40 mx-auto mb-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center">
-            <span className="text-5xl font-bold text-white">NM</span>
+          <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center">
+            <span className="text-4xl font-bold text-white">NM</span>
           </div>
         </motion.div>
         

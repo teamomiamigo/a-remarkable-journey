@@ -51,56 +51,94 @@
 
 /* Animated Background System */
 :root {
-  --bg-a: 210 100% 62%; /* sky blue */
-  --bg-b: 270 91% 71%;  /* violet */
-  --bg-c: 162 84% 39%;  /* teal */
+  --bg-blue: 210 100% 70%;   /* sky blue */
+  --bg-violet: 270 100% 80%; /* violet */
+  --bg-white: 0 0% 95%;      /* soft white */
 }
 
-/* Multi-stop, oversized gradient that we slowly pan + hue-rotate */
+/* Circular mesh gradient with flowing colors */
 .bg-alive {
   position: fixed;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(45% 60% at 20% 30%, hsl(var(--bg-a)) 0%, transparent 60%),
-    radial-gradient(40% 50% at 80% 20%, hsl(var(--bg-b)) 0%, transparent 65%),
-    radial-gradient(55% 70% at 50% 80%, hsl(var(--bg-c)) 0%, transparent 60%),
-    radial-gradient(140% 120% at 50% 50%, hsl(var(--bg-a) / 0.25) 0%, transparent 60%),
-    conic-gradient(from 180deg at 50% 50%,
-      hsl(var(--bg-a)) 0 120deg,
-      hsl(var(--bg-b)) 120deg 240deg,
-      hsl(var(--bg-c)) 240deg 360deg);
-  background-blend-mode: screen, screen, screen, screen, normal;
-  background-size: 200% 200%, 220% 220%, 240% 240%, 300% 300%, 180% 180%;
-  filter: saturate(1.05) blur(0.5px);
+    /* Main circular mesh - blue to violet */
+    radial-gradient(circle at 30% 40%, 
+      hsl(var(--bg-blue) / 0.8) 0%, 
+      hsl(var(--bg-violet) / 0.6) 40%, 
+      transparent 70%),
+    /* Secondary circle - violet to white */
+    radial-gradient(circle at 70% 30%, 
+      hsl(var(--bg-violet) / 0.7) 0%, 
+      hsl(var(--bg-white) / 0.5) 50%, 
+      transparent 80%),
+    /* Third circle - white to blue */
+    radial-gradient(circle at 50% 70%, 
+      hsl(var(--bg-white) / 0.6) 0%, 
+      hsl(var(--bg-blue) / 0.5) 45%, 
+      transparent 75%),
+    /* Large background circle for overall mesh */
+    radial-gradient(circle at 50% 50%, 
+      hsl(var(--bg-blue) / 0.3) 0%, 
+      hsl(var(--bg-violet) / 0.2) 60%, 
+      hsl(var(--bg-white) / 0.1) 100%);
+  background-blend-mode: screen, multiply, overlay, normal;
+  background-size: 120% 120%, 140% 140%, 160% 160%, 200% 200%;
+  filter: saturate(1.3) blur(0.2px);
   animation:
-    bg-pan 38s linear infinite,
-    bg-sway 26s ease-in-out infinite alternate,
-    bg-hue 120s linear infinite;
+    bg-circle-flow 45s ease-in-out infinite,
+    bg-color-shift 60s linear infinite,
+    bg-pulse 25s ease-in-out infinite alternate;
   will-change: background-position, filter;
   pointer-events: none;
 }
 
-@keyframes bg-pan {
-  0%   { background-position: 0% 0%,   100% 0%,   0% 100%, 50% 50%, 0% 0%; }
-  50%  { background-position: 100% 100%, 0% 100%, 100% 0%, 50% 50%, 100% 100%; }
-  100% { background-position: 0% 0%,   100% 0%,   0% 100%, 50% 50%, 0% 0%; }
+@keyframes bg-circle-flow {
+  0%   { 
+    background-position: 0% 0%, 100% 0%, 0% 100%, 50% 50%;
+  }
+  25%  { 
+    background-position: 100% 0%, 0% 100%, 100% 0%, 30% 70%;
+  }
+  50%  { 
+    background-position: 0% 100%, 100% 100%, 0% 0%, 70% 30%;
+  }
+  75%  { 
+    background-position: 100% 100%, 0% 0%, 100% 100%, 20% 80%;
+  }
+  100% { 
+    background-position: 0% 0%, 100% 0%, 0% 100%, 50% 50%;
+  }
 }
 
-@keyframes bg-sway {
-  0%   { transform: scale(1); }
-  100% { transform: scale(1.04); }
+@keyframes bg-color-shift {
+  0%   { 
+    filter: saturate(1.3) hue-rotate(0deg) blur(0.2px);
+  }
+  33%  { 
+    filter: saturate(1.5) hue-rotate(15deg) blur(0.1px);
+  }
+  66%  { 
+    filter: saturate(1.2) hue-rotate(-10deg) blur(0.3px);
+  }
+  100% { 
+    filter: saturate(1.3) hue-rotate(0deg) blur(0.2px);
+  }
 }
 
-@keyframes bg-hue {
-  0%   { filter: saturate(1.05) hue-rotate(0deg)  blur(0.5px); }
-  100% { filter: saturate(1.05) hue-rotate(360deg) blur(0.5px); }
+@keyframes bg-pulse {
+  0%   { 
+    transform: scale(1) rotate(0deg);
+  }
+  100% { 
+    transform: scale(1.05) rotate(2deg);
+  }
 }
 
 /* Light theme variant */
 .light .bg-alive {
-  --bg-a: 202 92% 80%;
-  --bg-b: 259 95% 86%;
-  --bg-c: 165 68% 72%;
-  filter: saturate(1.1) blur(0.5px);
+  --bg-blue: 200 100% 85%;   /* lighter sky blue */
+  --bg-violet: 260 100% 90%; /* lighter violet */
+  --bg-white: 0 0% 98%;      /* brighter white */
+  filter: saturate(1.1) blur(0.3px);
 }

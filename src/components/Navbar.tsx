@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="max-w-[1400px] mx-auto px-6 py-4 flex justify-between items-center">
         <motion.div
           initial={{ opacity: 0 }}
