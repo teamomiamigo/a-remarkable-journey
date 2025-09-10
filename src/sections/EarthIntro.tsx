@@ -7,29 +7,22 @@ import * as THREE from 'three'
 const Earth = ({ autoRotate }: { autoRotate: boolean }) => {
   const earthRef = useRef<THREE.Mesh>(null)
   
-  // Load Earth textures
-  const [earthTexture, bumpMap, specularMap] = useTexture([
-    '/textures/earth_texture.jpg',
-    '/textures/earth_bump.jpg',
-    '/textures/earth_specular.jpg'
-  ])
-
-  useFrame(() => {
+  useFrame((state) => {
     if (earthRef.current && autoRotate) {
-      earthRef.current.rotation.y += 0.002 // Slow auto-rotation
+      // Super smooth rotation with time-based animation
+      earthRef.current.rotation.y = state.clock.elapsedTime * 0.1
     }
   })
 
   return (
     <mesh ref={earthRef}>
-      <sphereGeometry args={[0.8, 64, 64]} />
-      <meshPhongMaterial
-        map={earthTexture}
-        bumpMap={bumpMap}
-        bumpScale={0.05}
-        specularMap={specularMap}
-        specular={new THREE.Color('white')}
-        shininess={10}
+      <sphereGeometry args={[0.5, 128, 128]} />
+      <meshStandardMaterial
+        color="#4A90E2"
+        roughness={0.3}
+        metalness={0.1}
+        emissive="#1a365d"
+        emissiveIntensity={0.1}
       />
     </mesh>
   )
@@ -48,18 +41,18 @@ function latLonToVec3(lat: number, lon: number, radius: number): [number, number
 
 const IllinoisFlag = ({ onClick }: { onClick: () => void }) => {
   // Illinois: approx 40°N, 89°W
-  const pos = latLonToVec3(40, -89, 0.85) // slightly above the surface
+  const pos = latLonToVec3(40, -89, 0.52) // slightly above the surface
   return (
     <group position={pos}>
       {/* Flag pole */}
       <mesh onClick={onClick}>
-        <cylinderGeometry args={[0.008, 0.008, 0.1, 16]} />
-        <meshStandardMaterial color="#cccccc" />
+        <cylinderGeometry args={[0.005, 0.005, 0.08, 16]} />
+        <meshStandardMaterial color="#e2e8f0" />
       </mesh>
       {/* Flag (rectangle) */}
-      <mesh position={[0, 0.05, 0.02]} rotation={[0, Math.PI / 2, 0]} onClick={onClick}>
-        <boxGeometry args={[0.03, 0.02, 0.002]} />
-        <meshStandardMaterial color="#ff4444" />
+      <mesh position={[0, 0.04, 0.015]} rotation={[0, Math.PI / 2, 0]} onClick={onClick}>
+        <boxGeometry args={[0.02, 0.015, 0.001]} />
+        <meshStandardMaterial color="#ef4444" />
       </mesh>
     </group>
   )
@@ -109,19 +102,36 @@ const EarthIntro = ({ onComplete }: { onComplete: () => void }) => {
         className="w-screen h-screen bg-bg fixed top-0 left-0 z-[1000]"
       >
         <Canvas
-          camera={{ position: [0, 0, 2], fov: 45 }}
+          camera={{ position: [0, 0, 1.8], fov: 50 }}
+          gl={{ antialias: true, alpha: true }}
         >
-          <ambientLight intensity={0.7} />
-          <directionalLight position={[2, 2, 2]} intensity={1.5} color="#fff" />
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[3, 2, 1]} intensity={1.2} color="#ffffff" />
+          <pointLight position={[-2, -1, 1]} intensity={0.3} color="#4A90E2" />
+          
+          {/* Atmospheric glow */}
+          <mesh>
+            <sphereGeometry args={[0.55, 32, 32]} />
+            <meshBasicMaterial 
+              color="#4A90E2" 
+              transparent 
+              opacity={0.1}
+              side={THREE.BackSide}
+            />
+          </mesh>
+          
           <Earth autoRotate={!prefersReducedMotion} />
           <IllinoisFlag onClick={handleClick} />
+          
           <OrbitControls
             enableZoom={false}
             enablePan={false}
             minPolarAngle={Math.PI / 3}
             maxPolarAngle={Math.PI / 2}
             autoRotate={!prefersReducedMotion}
-            autoRotateSpeed={0.5}
+            autoRotateSpeed={0.3}
+            enableDamping={true}
+            dampingFactor={0.05}
           />
         </Canvas>
         
