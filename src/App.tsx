@@ -38,11 +38,12 @@ function App() {
 
   return (
     <div className="w-full min-h-screen bg-bg text-ink overflow-hidden">
+      <div className="bg-alive" aria-hidden="true" />
       <AnimatePresence mode="wait">
         {showIntro ? (
           <EarthIntro onComplete={handleIntroComplete} />
         ) : (
-          <div className="h-screen flex flex-col">
+          <div className="h-screen flex flex-col relative">
             <Navbar />
             <div className="flex-1 grid grid-cols-12 max-w-[1400px] mx-auto">
               <Sidebar onProjectHover={handleProjectHover} />

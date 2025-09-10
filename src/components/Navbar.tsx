@@ -32,6 +32,15 @@ const Navbar = () => {
           >
             Contact
           </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="text-sm text-sub hover:text-sky-500 transition-colors"
+            onClick={() => window.open('/showcase', '_blank')}
+          >
+            Showcase
+          </motion.button>
         </div>
       </div>
     </nav>

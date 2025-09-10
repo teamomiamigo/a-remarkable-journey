@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Showcase - Nikhil's Portfolio</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/framer-motion@10/dist/framer-motion.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Red Hat Text', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8fafc;
+            color: #0b1220;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background System */
+        :root {
+            --bg-a: 210 100% 62%; /* sky blue */
+            --bg-b: 270 91% 71%;  /* violet */
+            --bg-c: 162 84% 39%;  /* teal */
+        }
+
+        .bg-alive {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(45% 60% at 20% 30%, hsl(var(--bg-a)) 0%, transparent 60%),
+                radial-gradient(40% 50% at 80% 20%, hsl(var(--bg-b)) 0%, transparent 65%),
+                radial-gradient(55% 70% at 50% 80%, hsl(var(--bg-c)) 0%, transparent 60%),
+                radial-gradient(140% 120% at 50% 50%, hsl(var(--bg-a) / 0.25) 0%, transparent 60%),
+                conic-gradient(from 180deg at 50% 50%,
+                    hsl(var(--bg-a)) 0 120deg,
+                    hsl(var(--bg-b)) 120deg 240deg,
+                    hsl(var(--bg-c)) 240deg 360deg);
+            background-blend-mode: screen, screen, screen, screen, normal;
+            background-size: 200% 200%, 220% 220%, 240% 240%, 300% 300%, 180% 180%;
+            filter: saturate(1.05) blur(0.5px);
+            animation:
+                bg-pan 38s linear infinite,
+                bg-sway 26s ease-in-out infinite alternate,
+                bg-hue 120s linear infinite;
+            will-change: background-position, filter;
+            pointer-events: none;
+        }
+
+        @keyframes bg-pan {
+            0%   { background-position: 0% 0%,   100% 0%,   0% 100%, 50% 50%, 0% 0%; }
+            50%  { background-position: 100% 100%, 0% 100%, 100% 0%, 50% 50%, 100% 100%; }
+            100% { background-position: 0% 0%,   100% 0%,   0% 100%, 50% 50%, 0% 0%; }
+        }
+
+        @keyframes bg-sway {
+            0%   { transform: scale(1); }
+            100% { transform: scale(1.04); }
+        }
+
+        @keyframes bg-hue {
+            0%   { filter: saturate(1.05) hue-rotate(0deg)  blur(0.5px); }
+            100% { filter: saturate(1.05) hue-rotate(360deg) blur(0.5px); }
+        }
+
+        .showcase-container {
+            min-height: 100vh;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0b1220;
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #3b485e;
+            margin-bottom: 3rem;
+        }
+
+        .controls {
+            margin-bottom: 3rem;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #0b1220;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #38bdf8;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #dbeafe;
+            color: #0ea5e9;
+        }
+
+        .btn-secondary:hover {
+            background-color: #bfdbfe;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0b1220;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            color: #3b485e;
+        }
+
+        .feature-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .performance {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .performance h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #0b1220;
+            margin-bottom: 1rem;
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            color: #3b485e;
+        }
+
+        .performance-item strong {
+            color: #0b1220;
+        }
+    </style>
+</head>
+<body>
+    <div class="showcase-container">
+        <div class="bg-alive" aria-hidden="true"></div>
+        
+        <div class="content">
+            <h1>Background Showcase</h1>
+            <p>Experience the animated 3-color background system with smooth, GPU-accelerated animations.</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <span class="control-label">Background Type:</span>
+                    <button class="btn-primary" onclick="showCSSBackground()">CSS Gradient</button>
+                    <button class="btn-secondary" onclick="showBlobBackground()">Canvas Blobs</button>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>CSS Gradient (Option A)</h3>
+                    <ul>
+                        <li>• Pure CSS animations</li>
+                        <li>• GPU-accelerated</li>
+                        <li>• Zero JavaScript overhead</li>
+                        <li>• Smooth 60fps performance</li>
+                        <li>• Works with light/dark themes</li>
+                        <li>• No external assets required</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Canvas Blobs (Option B)</h3>
+                    <ul>
+                        <li>• Dynamic canvas rendering</li>
+                        <li>• Organic blob movements</li>
+                        <li>• Real-time color mixing</li>
+                        <li>• Responsive to window resize</li>
+                        <li>• Customizable blob properties</li>
+                        <li>• Smooth requestAnimationFrame</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="performance">
+                <h3>Performance Features</h3>
+                <div class="performance-grid">
+                    <div class="performance-item">
+                        <strong>GPU Acceleration:</strong><br>
+                        Both options use hardware acceleration
+                    </div>
+                    <div class="performance-item">
+                        <strong>60fps Smooth:</strong><br>
+                        Optimized for consistent frame rates
+                    </div>
+                    <div class="performance-item">
+                        <strong>Low CPU Usage:</strong><br>
+                        Minimal impact on system resources
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showCSSBackground() {
+            // CSS background is already active by default
+            console.log('CSS Gradient background active');
+        }
+
+        function showBlobBackground() {
+            // For demo purposes, we'll just show the CSS version
+            // In a full implementation, this would switch to canvas blobs
+            console.log('Canvas Blob background would be active');
+        }
+    </script>
+</body>
+</html>
