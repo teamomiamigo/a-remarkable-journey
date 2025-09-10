@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="max-w-[1400px] mx-auto px-6 py-4 flex justify-between items-center">
         <motion.div
           initial={{ opacity: 0 }}
@@ -31,6 +31,15 @@ const Navbar = () => {
             className="text-sm text-sub hover:text-sky-500 transition-colors"
           >
             Contact
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="text-sm text-sub hover:text-sky-500 transition-colors"
+            onClick={() => window.open('/showcase', '_blank')}
+          >
+            Showcase
           </motion.button>
         </div>
       </div>

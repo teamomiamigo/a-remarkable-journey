@@ -35,7 +35,7 @@ const PreviewPane = ({ activeProject }: PreviewPaneProps) => {
   }, [activeProject, heroTimeout])
 
   return (
-    <div className="col-span-8 bg-bg relative overflow-hidden">
+    <div className="col-span-8 backdrop-blur-sm relative overflow-hidden">
       <AnimatePresence mode="wait">
         {showHero && !activeProject ? (
           <motion.div
